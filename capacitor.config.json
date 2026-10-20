@@ -1,0 +1,14 @@
+{
+  "appId": "com.jarvis.asistan",
+  "appName": "JARVIS",
+  "webDir": "www",
+  "backgroundColor": "#020a14",
+  "android": {
+    "allowMixedContent": false
+  },
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
+}

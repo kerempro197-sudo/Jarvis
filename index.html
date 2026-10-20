@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#020a14">
+<title>JARVIS</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- GİRİŞ EKRANI -->
+<section id="login" class="screen">
+  <div class="orb-wrap small"><div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="core">J</div></div>
+  <h1 class="title">JARVIS</h1>
+  <p class="sub">Kişisel Yapay Zeka Asistanı</p>
+  <div id="gbtn"></div>
+  <button id="gbtnFallback" class="btn big hidden">Google ile Giriş Yap</button>
+  <button id="guest" class="btn ghost">Misafir olarak devam et</button>
+  <p id="loginNote" class="note"></p>
+</section>
+
+<!-- ANA EKRAN -->
+<section id="main" class="screen hidden">
+  <header>
+    <div class="me" id="meBtn"><img id="avatarSmall" alt=""><span id="meName">Misafir</span></div>
+    <div class="clock"><div id="time">--:--:--</div><div id="date"></div></div>
+    <button id="settingsBtn" class="icon-btn" aria-label="Ayarlar">⚙</button>
+  </header>
+
+  <div class="center">
+    <div class="orb-wrap" id="orb">
+      <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+      <div class="avatar-core"><img id="avatar" alt=""><span id="avatarLetter">J</span></div>
+    </div>
+    <div id="state" class="state">HAZIR</div>
+    <div class="bars" id="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
+
+  <div class="panel log" id="log"></div>
+
+  <div class="quick" id="quick">
+    <button data-cmd="saat kaç">🕒 Saat</button>
+    <button data-cmd="hava durumu">⛅ Hava</button>
+    <button data-cmd="haberler">📰 Haber</button>
+    <button data-cmd="bana şaka yap">😄 Şaka</button>
+    <button data-cmd="neler yapabilirsin">❓ Yardım</button>
+  </div>
+
+  <div class="inputbar">
+    <input id="cmdInput" type="text" placeholder="Komut yaz veya mikrofona bas…" autocomplete="off">
+    <button id="sendBtn" class="icon-btn">➤</button>
+    <button id="micBtn" class="mic" aria-label="Mikrofon">🎤</button>
+  </div>
+</section>
+
+<!-- AYARLAR -->
+<section id="settings" class="sheet hidden">
+  <div class="sheet-head"><h2>Ayarlar</h2><button id="closeSettings" class="icon-btn">✕</button></div>
+  <div class="sheet-body">
+
+    <h3>Asistan</h3>
+    <label>Asistanın adı <input id="setName" type="text" maxlength="14"></label>
+    <label>Sana nasıl hitap etsin? <input id="setCall" type="text" maxlength="20" placeholder="efendim"></label>
+    <div class="row">
+      <button id="pickPhoto" class="btn">📷 Profil fotoğrafı seç</button>
+      <button id="clearPhoto" class="btn ghost">Kaldır</button>
+    </div>
+    <input id="photoFile" type="file" accept="image/*" class="hidden">
+
+    <h3>Ses</h3>
+    <div class="seg" id="voiceGender">
+      <button data-g="male">👨 Erkek</button>
+      <button data-g="female">👩 Kız</button>
+    </div>
+    <label>Ses seçimi <select id="voiceSelect"></select></label>
+    <label>Hız <input id="setRate" type="range" min="0.6" max="1.4" step="0.05"></label>
+    <label>Perde <input id="setPitch" type="range" min="0.5" max="1.6" step="0.05"></label>
+    <label class="check"><input id="setSpeak" type="checkbox"> Cevapları sesli oku</label>
+    <label class="check"><input id="setGreet" type="checkbox"> Açılışta selam ver</label>
+    <button id="testVoice" class="btn">▶ Sesi dene</button>
+
+    <h3>Renk</h3>
+    <div class="swatches" id="accentSwatches"></div>
+    <label>Özel renk <input id="accentCustom" type="color"></label>
+
+    <h3>Arka plan</h3>
+    <div class="swatches" id="bgSwatches"></div>
+    <label>Özel arka plan <input id="bgCustom" type="color"></label>
+    <label class="check"><input id="setGrid" type="checkbox"> Izgara deseni</label>
+    <label>Halka animasyon hızı <input id="setSpin" type="range" min="0" max="2" step="0.1"></label>
+
+    <h3>Hesap</h3>
+    <div id="accountInfo" class="note"></div>
+    <button id="logout" class="btn ghost">Çıkış yap</button>
+
+    <h3>Notlarım</h3>
+    <div id="notesList" class="note"></div>
+    <button id="clearNotes" class="btn ghost">Notları sil</button>
+  </div>
+</section>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

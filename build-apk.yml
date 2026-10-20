@@ -1,0 +1,66 @@
+name: APK Derle
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dosyaları al
+        uses: actions/checkout@v4
+
+      - name: Node kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Java kur
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Android SDK kur
+        uses: android-actions/setup-android@v3
+
+      - name: Web dosyalarını www klasörüne koy
+        run: |
+          mkdir -p www
+          cp index.html style.css app.js config.js www/
+
+      - name: Paketleri yükle
+        run: npm install --legacy-peer-deps
+
+      - name: Android projesini oluştur
+        run: |
+          npx cap add android
+          npx cap sync android
+
+      - name: İzinleri ekle (mikrofon, internet, konum)
+        run: |
+          MANIFEST=android/app/src/main/AndroidManifest.xml
+          for P in INTERNET RECORD_AUDIO MODIFY_AUDIO_SETTINGS ACCESS_FINE_LOCATION ACCESS_COARSE_LOCATION VIBRATE; do
+            if ! grep -q "android.permission.$P" "$MANIFEST"; then
+              sed -i "s#</manifest>#    <uses-permission android:name=\"android.permission.$P\" />\n</manifest>#" "$MANIFEST"
+            fi
+          done
+          # Android 11+ için TTS ve ses tanıma servislerini görebilsin
+          if ! grep -q "<queries>" "$MANIFEST"; then
+            sed -i "s#</manifest>#    <queries>\n        <intent><action android:name=\"android.intent.action.TTS_SERVICE\" /></intent>\n        <intent><action android:name=\"android.speech.RecognitionService\" /></intent>\n    </queries>\n</manifest>#" "$MANIFEST"
+          fi
+          cat "$MANIFEST"
+
+      - name: APK derle
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: APK'yı yükle
+        uses: actions/upload-artifact@v4
+        with:
+          name: JARVIS-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
